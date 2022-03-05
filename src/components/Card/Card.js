@@ -13,6 +13,11 @@ const moveCard = (card, top, left) => {
   card.style.left = `${left}px`;
 };
 
+const resetCard = (card) => {
+  card.style.removeProperty("top");
+  card.style.removeProperty("left");
+};
+
 export const Card = ({ name = "card" }) => {
   const [isDragging, setIsDragging] = useState(false);
   const cardRef = useRef(null);
@@ -20,8 +25,8 @@ export const Card = ({ name = "card" }) => {
 
   useEffect(() => {
     isDragging
-      ? cardRef.current.classList.add(dragClass)
-      : cardRef.current.classList.remove(dragClass);
+      ? cardRef.current.style.position = "absolute"
+      : cardRef.current.style.removeProperty("position");
   }, [isDragging]);
 
   useLayoutEffect(() => {
@@ -32,11 +37,11 @@ export const Card = ({ name = "card" }) => {
             state.mouseY - cardRef.current.clientHeight / 2,
             state.mouseX - cardRef.current.clientWidth / 2
           )
-        : moveCard(cardRef.current, 0, 0);
+        : resetCard(cardRef.current);
     }
-  }, [state, isDragging]);
+  }, [isDragging, state]);
 
-  const onDragStart = e => {
+  const onDragStart = (e) => {
     const image = new Image();
     image.src = emptyImage;
     setIsDragging(true);
@@ -44,9 +49,9 @@ export const Card = ({ name = "card" }) => {
     dispatch({ type: actions.NODE, payload: cardRef.current });
   };
 
-  const onDragEnd = e => {
+  const onDragEnd = (e) => {
     setIsDragging(false);
-    dispatch({ type: actions.NODE, payload: null });
+    //dispatch({ type: actions.NODE, payload: null });
   };
 
   return (
