@@ -1,0 +1,15 @@
+.card {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #616161;
+    position: static;
+    width: 250px;
+    height: 400px;
+    background-color: teal;
+    color: white;
+}
+
+.card.drag {
+    z-index: 99999;
+    position: fixed;
+}
